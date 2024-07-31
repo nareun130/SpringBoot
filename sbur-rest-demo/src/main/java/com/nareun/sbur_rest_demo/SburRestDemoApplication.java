@@ -29,9 +29,13 @@ public class SburRestDemoApplication {
 }
 
 class Coffee {
-	// * 한번 할당하고 절대 수정 x
-	private final String id;
+	// * 한번 할당하고 절대 수정 x -> final 선언 시 기본 생성자 생성불가 -> post요청 에서 에러
+	private String id;
 	private String name;
+
+	public Coffee() {
+
+	}
 
 	public Coffee(String id, String name) {
 		this.id = id;
@@ -81,7 +85,7 @@ class RestApiDemoController {
 	}
 
 	@GetMapping("/{id}")
-	Optional<Coffee> getCoffeeById(@PathVariable(name = "id  ") String id) {
+	Optional<Coffee> getCoffeeById(@PathVariable(name = "id") String id) {
 		for (Coffee c : coffees) {
 			if (c.getId().equals(id)) {
 				return Optional.of(c);
@@ -112,7 +116,7 @@ class RestApiDemoController {
 				: new ResponseEntity<>(coffee, HttpStatus.OK);
 	}
 
-	@DeleteMapping(" /{id}")
+	@DeleteMapping("/{id}")
 	void deleteCoffee(@PathVariable(name = "id") String id) {
 		coffees.removeIf(c -> c.getId().equals(id));
 	}
