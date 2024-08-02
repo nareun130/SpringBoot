@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.stereotype.Component;
 
 import com.nareun.sbur_rest_demo.entity.Coffee;
@@ -12,6 +13,7 @@ import com.nareun.sbur_rest_demo.repository.CoffeeRepository;
 import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
+@ConfigurationPropertiesScan //* ConfigurationProperties를 스캔
 public class SburRestDemoApplication {
 
 	public static void main(String[] args) {
