@@ -68,14 +68,14 @@ public class Aircraft {
         }
     }
 
-    //* String이 값을 가장 잘 직렬화 시킴.
+    //* String이 값을 가장 잘 직렬화 시킴.w
     public String getPosUpdateTime() {
         return posUpdateTime.toString();
     }
 
     public void setPosUpdateTime(String posUpdateTime) {
         if (null != posUpdateTime) {
-            this.posUpdateTime = Instant.parse(posUpdateTime);
+              this.posUpdateTime = Instant.parse(posUpdateTime);
         } else {
             this.posUpdateTime = Instant.ofEpochSecond(0);
         }
