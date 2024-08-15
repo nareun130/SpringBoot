@@ -16,7 +16,7 @@ public class PlaneController {
 
     @ResponseBody
     @GetMapping("/aircraft")
-    public Iterable<Aircraft> getCurrentAircraft() throws IOException {
+    public Iterable<Aircraft> getCurrentAircraft() throws IOException, InterruptedException {
         return pfService.getAircraft();
     }
 }

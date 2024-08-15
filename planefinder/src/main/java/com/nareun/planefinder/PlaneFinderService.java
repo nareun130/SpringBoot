@@ -8,49 +8,56 @@ import lombok.SneakyThrows;
 
 import org.springframework.stereotype.Service;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 @Service
 public class PlaneFinderService {
-
     private final PlaneRepository repo;
     private final FlightGenerator generator;
-    private final URL acURL;
-    //* JSON -> 객체로
+    private final URI acURI;
     private final ObjectMapper om;
+    private final HttpClient httpClient;
 
-    @SneakyThrows//예외처리를 암묵적으로 수행
+    @SneakyThrows
     public PlaneFinderService(PlaneRepository repo, FlightGenerator generator) {
         this.repo = repo;
         this.generator = generator;
 
-        acURL = new URL("http://192.168.123.109/aircraft");
+        acURI = URI.create("http://192.168.123.109/aircraft");
         om = new ObjectMapper();
+        httpClient = HttpClient.newHttpClient();
     }
 
-    public Iterable<Aircraft> getAircraft() throws IOException {
+    public Iterable<Aircraft> getAircraft() throws IOException, InterruptedException {
         List<Aircraft> positions = new ArrayList<>();
 
         JsonNode aircraftNodes = null;
         try {
-            //* URL로 부터 JSON데이터를 읽음
-            aircraftNodes = om.readTree(acURL)
-                    .get("aircraft");
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(acURI)
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+
+            aircraftNodes = om.readTree(responseBody).get("aircraft");
 
             aircraftNodes.iterator().forEachRemaining(node -> {
                 try {
-                    //* Aircraft객체로 변환하여 리스트에 추가
                     positions.add(om.treeToValue(node, Aircraft.class));
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
             });
-            //* 예외 발생 시 샘플 데이터를 생성하여 반환
-        } catch (IOException e) {
-            System.out.println("\n>>> IO Exception: " + e.getLocalizedMessage() +
+        } catch (IOException | InterruptedException e) {
+            System.out.println("\n>>> Exception: " + e.getLocalizedMessage() +
                     ", generating and providing sample data.\n");
             return saveSamplePositions();
         }
