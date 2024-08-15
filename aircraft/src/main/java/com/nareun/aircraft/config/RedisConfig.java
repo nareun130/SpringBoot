@@ -10,7 +10,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.nareun.aircraft.domain.Aircraft;
 
-@Configuration
+// @Configuration
 public class RedisConfig {//~> Repository구현으로 인해 RedisConfig가 필요 없어짐.
 
     @Bean

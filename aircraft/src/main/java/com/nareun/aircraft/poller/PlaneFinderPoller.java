@@ -10,8 +10,7 @@ import com.nareun.aircraft.domain.Aircraft;
 import com.nareun.aircraft.repository.AircraftRepository;
 
 @EnableScheduling
-@Component
-public class PlaneFinderPoller {
+@Component public class PlaneFinderPoller {
     private WebClient client = WebClient.create("http://localhost:7634/aircraft");
     private final RedisConnectionFactory connectionFactory;
     private final AircraftRepository repository;

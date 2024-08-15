@@ -19,6 +19,7 @@ public class PlaneFinderService {
     private final PlaneRepository repo;
     private final FlightGenerator generator;
     private final URL acURL;
+    //* JSON -> 객체로
     private final ObjectMapper om;
 
     @SneakyThrows//예외처리를 암묵적으로 수행
@@ -26,7 +27,7 @@ public class PlaneFinderService {
         this.repo = repo;
         this.generator = generator;
 
-        acURL = new URL("http://192.168.123.109/ajax/aircraft");
+        acURL = new URL("http://192.168.123.109/aircraft");
         om = new ObjectMapper();
     }
 
@@ -35,16 +36,19 @@ public class PlaneFinderService {
 
         JsonNode aircraftNodes = null;
         try {
+            //* URL로 부터 JSON데이터를 읽음
             aircraftNodes = om.readTree(acURL)
                     .get("aircraft");
 
             aircraftNodes.iterator().forEachRemaining(node -> {
                 try {
+                    //* Aircraft객체로 변환하여 리스트에 추가
                     positions.add(om.treeToValue(node, Aircraft.class));
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
             });
+            //* 예외 발생 시 샘플 데이터를 생성하여 반환
         } catch (IOException e) {
             System.out.println("\n>>> IO Exception: " + e.getLocalizedMessage() +
                     ", generating and providing sample data.\n");
