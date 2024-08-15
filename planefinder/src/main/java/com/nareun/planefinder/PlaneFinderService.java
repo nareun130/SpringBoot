@@ -21,7 +21,7 @@ public class PlaneFinderService {
     private final URL acURL;
     private final ObjectMapper om;
 
-    @SneakyThrows
+    @SneakyThrows//예외처리를 암묵적으로 수행
     public PlaneFinderService(PlaneRepository repo, FlightGenerator generator) {
         this.repo = repo;
         this.generator = generator;
