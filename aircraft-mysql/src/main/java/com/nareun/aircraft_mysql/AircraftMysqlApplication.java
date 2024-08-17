@@ -8,6 +8,6 @@ public class AircraftMysqlApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AircraftMysqlApplication.class, args);
-	}
+	}  
 
 }
