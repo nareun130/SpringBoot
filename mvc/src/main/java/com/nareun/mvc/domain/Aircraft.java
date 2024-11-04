@@ -1,29 +1,24 @@
-package com.nareun.neo.domain;
+package com.nareun.mvc.domain;
 
 import java.time.Instant;
 
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Node
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Aircraft {
 
     @Id
-    @GeneratedValue(generatorRef = "my")
-    private Long neoId;
-
+    @GeneratedValue
     private Long id;
 
     private String callsign, squawk, reg, flightno, route, type, category;
@@ -39,13 +34,13 @@ public class Aircraft {
     private double lat, lon, barometer;
 
     @JsonProperty("polar_distance")
-    private double poloarDistance;
+    private double polarDistance;
 
     @JsonProperty("polar_bearing")
     private double polarBearing;
 
     @JsonProperty("is_adsb")
-    private boolean isADSB;
+    private boolean isASDB;
 
     @JsonProperty("is_on_ground")
     private boolean isOnGround;
@@ -58,5 +53,4 @@ public class Aircraft {
 
     @JsonProperty("bds40_seen_time")
     private Instant bds40SeenTime;
-
 }
